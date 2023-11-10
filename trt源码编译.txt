@@ -1,0 +1,23 @@
+第一步：
+·需要安装TensorRT
+·下载与安装的TensorRT版本一致的源代码进行编译
+下载命令：
+git clone -b release/8.2.0.6 https://github.com/nvidia/TensorRT TensorRT
+git clone -b master https://github.com/nvidia/TensorRT TensorRT
+
+cd TensorRT
+git submodule update --init --recursive                           // 下载trt源码中的第三方库如onnx等
+
+
+编译命令：
+mkdir build
+cd build
+cmake .. -DTRT_LIB_DIR=$TRT_RELEASE/lib -DTRT_BIN_DIR=’pwd’/out -DCUDA_VERSION=11.0 -DPROTOBUF_VERSION=3.6.1   
+cmake .. -DTRT_LIB_DIR=$TRT_LIBPATH -DTRT_OUT_DIR=`pwd`/out -DCUDA_VERSION=11.2 -DPROTOBUF_VERSION=3.6.1   
+make -j10
+
+
+编译库中带的sample
+cd $TRT_RELEASE
+下载数据集   http://yann.lecun.com/exdb/mnist/
+生成  python generate_pgms.py -d t10k-images.idx3-ubyte -l t10k-labels.idx1-ubyte
